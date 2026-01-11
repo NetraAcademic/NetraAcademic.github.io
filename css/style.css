@@ -134,6 +134,7 @@ header h1 {
     font-size: 1.6rem;
     font-weight: 600;
     margin-bottom: 12px;
+    min-height: 144px;
 }
 
 /* NAVBAR */
@@ -541,6 +542,7 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
 
