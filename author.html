@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Article</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import { checkRole } from "./js/auth-guard.js";
+        checkRole(["author","admin","editor"]);
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Send Article</h1>
+        <nav class="navbar">
+            <ul class="nav-left">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+            <ul class="nav-right"></ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Yeni Yazı Gönder</h2>
+            <form id="article-form">
+                <label for="title">Başlık</label>
+                <input type="text" id="title" required>
+
+                <label for="content">İçerik</label>
+                <textarea id="content" rows="8" required></textarea>
+
+                <button type="submit">Gönder</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Netra Academic</p>
+        <p>
+            <a href="#">About</a>
+            <a href="#">Policy</a>
+            <a href="#">Contact</a>
+        </p>
+    </footer>
+
+    <script type="module" src="js/author.js"></script>
+</body>
+</html>

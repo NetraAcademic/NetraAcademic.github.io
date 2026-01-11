@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import { checkRole } from "./js/auth-guard.js";
+        checkRole(["admin"]); // sadece admin erişebilir
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Admin Panel</h1>
+        <nav class="navbar">
+            <ul class="nav-left">
+                <li><a href="index.html">Home</a></li>
+            </ul>
+            <ul class="nav-right">
+                <!-- JS ile login/logout ve kullanıcı adı gelecek -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Kullanıcı Yönetimi</h2>
+            <p>Bu panelde admin kullanıcıları görebilir ve rollerini değiştirebilir.</p>
+
+            <!-- Kullanıcı tablosu -->
+            <table id="user-table">
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>İsim</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JS ile Firestore’dan kullanıcı verileri buraya doldurulacak -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Netra Academic</p>
+        <p>
+            <a href="#">About</a>
+            <a href="#">Policy</a>
+            <a href="#">Contact</a>
+        </p>
+    </footer>
+
+    <!-- JS -->
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
