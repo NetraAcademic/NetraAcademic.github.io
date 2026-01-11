@@ -125,7 +125,7 @@ header h1 {
 
 /* NAVBAR */
 .nav-brand img {
-    height: 36px;
+    height: 46px;
     width: auto;
     display: block;
 }
@@ -527,6 +527,7 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
 
