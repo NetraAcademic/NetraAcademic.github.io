@@ -19,9 +19,22 @@
 /* BODY */
 body {
     font-family: "Montserrat", Arial, sans-serif;
-    background: radial-gradient(circle at top, #122063, var(--bg-main));
     color: var(--text-main);
     line-height: 1.7;
+    background: none; /* ÖNEMLİ */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: radial-gradient(
+        circle at top,
+        #122063,
+        var(--bg-main)
+    );
 }
 
 html, body {
@@ -527,6 +540,7 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
 
