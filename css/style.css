@@ -31,6 +31,74 @@ html, body {
     display: flex;
     flex-direction: column;
 }
+
+/* Navbar responsive */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .nav-left, .nav-right {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 40px 16px; /* içerik kenarlara dayanmasın */
+    }
+
+    .article-card {
+        padding: 16px;
+    }
+
+    article h3 {
+        font-size: 1rem;
+    }
+
+    article p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #pending-articles-table,
+    #pending-articles-table thead,
+    #pending-articles-table tbody,
+    #pending-articles-table tr,
+    #pending-articles-table td {
+        display: block;
+        width: 100%;
+    }
+
+    #pending-articles-table tr {
+        margin-bottom: 16px;
+        border-bottom: 1px solid var(--border-soft);
+    }
+
+    #pending-articles-table td {
+        padding-left: 50%;
+        position: relative;
+    }
+
+    #pending-articles-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+}
+
+@media (max-width: 768px) {
+    footer {
+        padding: 16px 10px;
+        font-size: 0.75rem;
+    }
+}
+
 /* LINKS */
 a {
     color: var(--text-muted);
