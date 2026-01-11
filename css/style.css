@@ -128,7 +128,6 @@ header {
     align-items: center;
     padding: 16px 32px;
     border-bottom: 1px solid var(--border-soft);
-    min-height: 64px;
 }
 
 header h1 {
@@ -542,6 +541,7 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
 
