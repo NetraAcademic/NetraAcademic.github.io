@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+textarea {
+    resize: none;
+}
+</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Article</title>
@@ -12,6 +17,7 @@
     <script type="module">
         import { checkRole } from "./js/auth-guard.js";
         checkRole(["author","admin","editor"]);
+
     </script>
 </head>
 <body>
@@ -20,11 +26,12 @@
         <nav class="navbar">
             <ul class="nav-left">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="articles.html">Articles</a></li>
             </ul>
             <ul class="nav-right"></ul>
         </nav>
     </header>
-
+    
     <main>
         <section>
             <h2>Submit a New Text</h2>
@@ -34,6 +41,13 @@
 
                 <label for="content">Content</label>
                 <textarea id="content" rows="8" required></textarea>
+
+                <label for="file">Upload a File (Optional)</label>
+                <input
+                    type="file"
+                    id="file"
+                    accept=".jpg, .png, .jpeg, .pdf"
+                />
 
                 <button type="submit">Submit</button>
             </form>
