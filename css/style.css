@@ -239,8 +239,10 @@ ar ul {
 }
 
 .nav-brand img {
-    height: 40px;   /* ideal navbar boyutu */
+    height: 64px;   /* ideal navbar boyutu */
     width: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 /* MAIN */
 main {
@@ -530,6 +532,7 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
 
