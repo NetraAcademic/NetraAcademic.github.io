@@ -1,4 +1,3 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -19,22 +18,9 @@
 /* BODY */
 body {
     font-family: "Montserrat", Arial, sans-serif;
+    background: radial-gradient(circle at top, #122063, var(--bg-main));
     color: var(--text-main);
     line-height: 1.7;
-    background: none; /* ÖNEMLİ */
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-
-    background: radial-gradient(
-        circle at top,
-        #122063,
-        var(--bg-main)
-    );
 }
 
 html, body {
@@ -124,23 +110,21 @@ a:hover {
 
 /* HEADER */
 header {
+    padding: 24px 40px;
     display: flex;
     align-items: center;
     padding: 16px 32px;
     border-bottom: 1px solid var(--border-soft);
-    min-height: 94.64px
+    backdrop-filter: blur(6px);
 }
 
 header h1 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: 12px;
-    min-height: 144px;
+@@ -123,11 +124,18 @@
 }
 
 /* NAVBAR */
 .nav-brand img {
-    height: 56px;
+    height: 36px;
     width: auto;
     display: block;
 }
@@ -154,54 +138,32 @@ header h1 {
 }
 ar ul {
     list-style: none;
+@@ -141,13 +149,11 @@
+    align-items: center;
+}
+.nav-left {
+    list-style: none;
     display: flex;
     gap: 22px;
     padding-left: 0;
     margin: 0;
-}
-.navbar li {
-    display: flex;
-    align-items: center;
-}
-.nav-left {
-    display: flex;
-    gap: 22px;
     list-style: none;
     margin-left: 32px;
 }
+
 .nav-left li a {
     font-size: 0.95rem;
     font-weight: 500;
-    color: var(--text-muted);
-    text-decoration: none;
-    position: relative;
-    padding: 6px 0;
-    transition: color 0.2s ease;
-}
-
-/* underline hover */
-.nav-left li a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.25s ease;
-}
-
-.nav-left li a:hover {
-    color: var(--text-main);
-}
-
-.nav-left li a:hover::after {
-    width: 100%;
-}
+@@ -180,346 +186,345 @@
 
 /* Sağdaki login button */
 .nav-right {
+    list-style: none;
     display: flex;
+    gap: 12px;
+    padding-left: 0;
+    margin: 0;
+    align-items: center;
     gap: 16px;
     list-style: none;
     margin-left: auto;
@@ -229,7 +191,6 @@ ar ul {
     color: #9fb2e5;
     text-decoration: none;
     position: relative;
-    white-space: nowrap;
 }
 
 /* underline animation */
@@ -543,14 +504,3 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
-
-
-
-
-
-
-
-
-
-
-
