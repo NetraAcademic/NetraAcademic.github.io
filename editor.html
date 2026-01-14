@@ -3,50 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Panel - Pending Articles</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Netra Academic</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script type="module">
-        import { checkRole } from "./js/auth-guard.js";
-        checkRole(["editor","admin"]); // sadece editor erişebilir
-    </script>
 </head>
 <body>
     <header>
-        <h1>Editor Panel</h1>
+        <div class="nav-brand">
+            <a href="index.html">
+                <img src="assets/logo.png" alt="Netra Academic">
+            </a>
+        </div>
         <nav class="navbar">
             <ul class="nav-left">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="articles.html">Articles</a></li>
             </ul>
-            <ul class="nav-right">
-                <!-- JS ile login/logout ve kullanıcı adı gelecek -->
+            <ul class="nav-right" id="user-menu">
+                <li >
+                    <button id="login-btn">Login with Google</button>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main>
         <section>
-            <h2>Pending Articles</h2>
-            <p>Warning to Editors: 
-               Only publish articles you are fully confident in.
+            <h2>Welcome to Netra</h2>
+            <p>
+                Netra is a student-run academic platform for international students and scholars. Here, you can share your research, essays, and ideas with the community.
+                
+                Our goal is to connect people from different countries and fields, encourage learning, and create a space where everyone’s voice can be heard. 
+                
+                Join Netra and be part of a global academic community!
             </p>
-
-            <table id="pending-articles-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Submission Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- JS ile Firestore’dan pending articles buraya doldurulacak -->
-                </tbody>
-            </table>
+        </section>
+        <section>
+            <p>Note: You must be logged in to submit your articles.</p>
+        </section>
+        <section>
+            <p>Additional: Fuck Niggers</p>
         </section>
     </main>
 
@@ -58,7 +56,7 @@
             <a href="#">Contact</a>
         </p>
     </footer>
-
-    <script type="module" src="js/editor.js"></script>
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>
+
