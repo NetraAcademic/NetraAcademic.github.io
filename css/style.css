@@ -187,6 +187,7 @@ ar ul {
     padding-left: 0;
     margin: 0;
     align-items: center;
+    float: right;
 }
 
 
@@ -529,5 +530,6 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
 
 
