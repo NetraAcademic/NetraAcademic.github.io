@@ -18,22 +18,9 @@
 /* BODY */
 body {
     font-family: "Montserrat", Arial, sans-serif;
+    background: radial-gradient(circle at top, #122063, var(--bg-main));
     color: var(--text-main);
     line-height: 1.7;
-    background: none; /* ÖNEMLİ */
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-
-    background: radial-gradient(
-        circle at top,
-        #122063,
-        var(--bg-main)
-    );
 }
 
 html, body {
@@ -123,33 +110,23 @@ a:hover {
 
 /* HEADER */
 header {
-    display: flex;
-    align-items: center;
-    padding: 16px 32px;
+    padding: 24px 40px;
     border-bottom: 1px solid var(--border-soft);
-    min-height: 94.64px
+    backdrop-filter: blur(6px);
 }
 
 header h1 {
     font-size: 1.6rem;
     font-weight: 600;
     margin-bottom: 12px;
-    min-height: 144px;
 }
 
 /* NAVBAR */
-.nav-brand img {
-    height: 56px;
-    width: auto;
-    display: block;
-}
-
 .navbar {
     display: flex;
     justify-content: space-between; /* sol ve sağ arasında boşluk */
     align-items: center;
     padding: 12px 40px;
-    width: 100%;
 }
 ar ul {
     list-style: none;
@@ -163,11 +140,13 @@ ar ul {
     align-items: center;
 }
 .nav-left {
+    list-style: none;
     display: flex;
     gap: 22px;
-    list-style: none;
-    margin-left: 32px;
+    padding-left: 0;
+    margin: 0;
 }
+
 .nav-left li a {
     font-size: 0.95rem;
     font-weight: 500;
@@ -200,10 +179,12 @@ ar ul {
 
 /* Sağdaki login button */
 .nav-right {
-    display: flex;
-    gap: 16px;
     list-style: none;
-    margin-left: auto;
+    display: flex;
+    gap: 12px;
+    padding-left: 0;
+    margin: 0;
+    align-items: center;
 }
 
 
@@ -228,7 +209,6 @@ ar ul {
     color: #9fb2e5;
     text-decoration: none;
     position: relative;
-    white-space: nowrap;
 }
 
 /* underline animation */
