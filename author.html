@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-textarea {
-    resize: none;
-}
-</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Send Article</title>
@@ -14,11 +9,9 @@ textarea {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <script type="module">
         import { checkRole } from "./js/auth-guard.js";
         checkRole(["author","admin","editor"]);
-
     </script>
 </head>
 <body>
@@ -27,12 +20,11 @@ textarea {
         <nav class="navbar">
             <ul class="nav-left">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="articles.html">Articles</a></li>
             </ul>
             <ul class="nav-right"></ul>
         </nav>
     </header>
-    
+
     <main>
         <section>
             <h2>Submit a New Text</h2>
@@ -42,13 +34,6 @@ textarea {
 
                 <label for="content">Content</label>
                 <textarea id="content" rows="8" required></textarea>
-
-                <label for="file">Upload a File (Optional)</label>
-                <input
-                    type="file"
-                    id="file"
-                    accept=".jpg, .png, .jpeg, .pdf"
-                />
 
                 <button type="submit">Submit</button>
             </form>
@@ -67,5 +52,3 @@ textarea {
     <script type="module" src="js/author.js"></script>
 </body>
 </html>
-
-
