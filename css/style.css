@@ -1,3 +1,4 @@
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -18,9 +19,22 @@
 /* BODY */
 body {
     font-family: "Montserrat", Arial, sans-serif;
-    background: radial-gradient(circle at top, #122063, var(--bg-main));
     color: var(--text-main);
     line-height: 1.7;
+    background: none; /* ÖNEMLİ */
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+
+    background: radial-gradient(
+        circle at top,
+        #122063,
+        var(--bg-main)
+    );
 }
 
 html, body {
@@ -110,25 +124,33 @@ a:hover {
 
 /* HEADER */
 header {
-    padding: 24px 40px;
-    border-bottom: 1px solid var(--border-soft);
-    backdrop-filter: blur(6px);
     display: flex;
     align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border-soft);
+    min-height: 94.64px
 }
 
 header h1 {
     font-size: 1.6rem;
     font-weight: 600;
     margin-bottom: 12px;
+    min-height: 144px;
 }
 
 /* NAVBAR */
+.nav-brand img {
+    height: 56px;
+    width: auto;
+    display: block;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between; /* sol ve sağ arasında boşluk */
     align-items: center;
     padding: 12px 40px;
+    width: 100%;
 }
 ar ul {
     list-style: none;
@@ -142,13 +164,11 @@ ar ul {
     align-items: center;
 }
 .nav-left {
-    list-style: none;
     display: flex;
     gap: 22px;
-    padding-left: 0;
-    margin: 0;
+    list-style: none;
+    margin-left: 32px;
 }
-
 .nav-left li a {
     font-size: 0.95rem;
     font-weight: 500;
@@ -181,12 +201,9 @@ ar ul {
 
 /* Sağdaki login button */
 .nav-right {
-    list-style: none;
     display: flex;
     gap: 16px;
-    padding-left: 0;
-    margin: 0;
-    align-items: center;
+    list-style: none;
     margin-left: auto;
 }
 
@@ -212,6 +229,7 @@ ar ul {
     color: #9fb2e5;
     text-decoration: none;
     position: relative;
+    white-space: nowrap;
 }
 
 /* underline animation */
@@ -236,13 +254,6 @@ ar ul {
     border-radius: 8px;
     padding: 6px 14px;
     cursor: pointer;
-}
-
-.nav-brand img {
-    height: 64px;   /* ideal navbar boyutu */
-    width: auto;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 /* MAIN */
 main {
@@ -532,6 +543,12 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
+
+
+
+
+
+
 
 
 
