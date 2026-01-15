@@ -544,55 +544,6 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
 
-#char-counter{
-    margin-top: 6px;
-    text-align: right;
-    font-size: 0.8rem;
-    color: var(--text-muted)
-}
-
-.editor-toolbar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-.editor-toolbar button {
-    padding: 6px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border-soft);
-    background: rgba(255,255,255,0.05);
-    color: var(--text-main);
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.editor-toolbar button:hover {
-    background: var(--accent-soft);
-}
-
-.editor {
-    min-height: 200px;
-    padding: 12px 14px;
-    font-size: 0.9rem;
-    line-height: 1.6;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border-soft);
-    border-radius: 10px;
-}
-
-.editor:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-soft);
-}
-
-#char-counter {
-    margin-top: 6px;
-    text-align: right;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
 
 
 
