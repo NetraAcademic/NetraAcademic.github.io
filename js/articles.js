@@ -1,8 +1,6 @@
 import { db } from "./firebase-config.js";
 import { collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-
-
 const articlesList = document.getElementById("articles-list");
 
 async function loadApprovedArticles() {
@@ -22,26 +20,16 @@ async function loadApprovedArticles() {
             const div = document.createElement("div");
             div.classList.add("article-card");
 
-            div.innerHTML = `
-                <h3>${article.title}</h3>
-                <p class="article-meta">
-                    By ${article.authorName} | ${article.createdAt?.toDate().toLocaleString() || ""}
-                </p>
-                <p class="article-preview">
-                    ${article.content.substring(0, 200)}${article.content.length > 200 ? "..." : ""}
-                </p>
-            `;            
-
             // Tüm kart tıklanabilir olsun
             div.onclick = () => {
                 window.location.href = `article.html?id=${docSnap.id}`;
             };
-            
 
-
-
-
-
+            div.innerHTML = `
+                <h3>${article.title}</h3>
+                <p class="article-meta">By ${article.authorName} | ${article.createdAt?.toDate().toLocaleString() || ""}</p>
+                <p class="article-preview">${article.content.substring(0, 200)}${article.content.length > 200 ? "..." : ""}</p>
+            `;
 
             articlesList.appendChild(div);
         });
@@ -50,8 +38,6 @@ async function loadApprovedArticles() {
         articlesList.innerHTML = "<p>Articles yüklenemedi: " + err.message + "</p>";
     }
 }
-
-
 
 // Sayfa açıldığında yükle
 loadApprovedArticles();
