@@ -33,7 +33,7 @@
                 <input type="text" id="title" required>
 
                 <label for="content">Content</label>
-                <textarea id="content" rows="8" required></textarea>
+                <textarea id="content" class="auto-grow" rows="8" required></textarea>
 
                 <button type="submit">Submit</button>
             </form>
@@ -50,5 +50,17 @@
     </footer>
 
     <script type="module" src="js/author.js"></script>
+    <script>
+document.querySelectorAll('.auto-grow').forEach(textarea => {
+    const autoResize = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    };
+
+    textarea.addEventListener('input', autoResize);
+    autoResize(); // sayfa açılınca
+});
+</script>
+
 </body>
 </html>
