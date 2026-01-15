@@ -3,7 +3,7 @@
 <head>
 <style>
 textarea {
-    resize: none;
+    resize :none
 }
 </style>
     <meta charset="UTF-8">
@@ -17,7 +17,6 @@ textarea {
     <script type="module">
         import { checkRole } from "./js/auth-guard.js";
         checkRole(["author","admin","editor"]);
-
     </script>
 </head>
 <body>
@@ -26,7 +25,6 @@ textarea {
         <nav class="navbar">
             <ul class="nav-left">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="articles.html">Articles</a></li>
             </ul>
             <ul class="nav-right"></ul>
         </nav>
@@ -39,31 +37,8 @@ textarea {
                 <label for="title">Title</label>
                 <input type="text" id="title" required>
 
-                <label>Content</label>
-                
-                <div class="editor-toolbar">
-                    <button type="button" data-cmd="bold"><b>B</b></button>
-                    <button type="button" data-cmd="italic"><i>I</i></button>
-                    <button type="button" data-cmd="underline"><u>U</u></button>
-                </div>
-
-                <div
-                    id="content"
-                    class="editor"
-                    contenteditable="true"
-                ></div>
-                
-
-                <div id="char-counter">0 / 3000</div>
-
-                
-
-                <label for="file">Upload a File (Optional)</label>
-                <input
-                    type="file"
-                    id="file"
-                    accept=".jpg, .png, .jpeg, .pdf"
-                />
+                <label for="content">Content</label>
+                <textarea id="content" rows="8" required></textarea>
 
                 <button type="submit">Submit</button>
             </form>
