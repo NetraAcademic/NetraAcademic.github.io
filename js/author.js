@@ -36,6 +36,10 @@ onAuthStateChanged(auth, (user) => {
             });
             alert("Yazınız başarıyla gönderildi!");
             form.reset();
+            
+            counter.textContent = `0 / ${maxChars}`;
+            textarea.style.height = "auto";
+
         } catch (err) {
             console.error("Yazı gönderilemedi:", err);
             alert("Yazı gönderilemedi: " + err.message);
