@@ -121,7 +121,11 @@ header {
 header h1 {
     font-size: 1.6rem;
     font-weight: 600;
-    margin-bottom: 12px;
+    
+    height: 64px;
+}
+
+header div{
     height: 64px;
 }
 
