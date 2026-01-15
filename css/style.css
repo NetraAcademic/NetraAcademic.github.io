@@ -337,10 +337,16 @@ form textarea:focus {
     box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
+#char-counter {
+    margin-top: 6px;
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
 .auto-grow {
-    resize: none;          /* köşeyi kapat */
-    overflow: hidden;      /* scrollbar yok */
-    min-height: 120px;
+    resize: none;
+    overflow: hidden;
+    min-height: 160px;
     line-height: 1.5;
 }
 

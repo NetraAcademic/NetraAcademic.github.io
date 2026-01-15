@@ -3,6 +3,13 @@ import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/fir
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const form = document.getElementById("article-form");
+const textarea = document.getElementById("content");
+const counter = document.getElementById("char-counter")
+const maxChars = 3000
+
+textarea.addEventListener("input", () => {
+    counter.textContent = `${textarea.value.length} / ${maxChars}`;
+});
 
 onAuthStateChanged(auth, (user) => {
     if (!user) {
