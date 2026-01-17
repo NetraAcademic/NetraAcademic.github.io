@@ -561,4 +561,20 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
 
+#file-status {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: #4f7cff; /* Accent rengi */
+    font-weight: 500;
+}
+
+#file-status.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#file-status.hide {
+    opacity: 0;
+    transform: translateY(-5px);
+}
 
