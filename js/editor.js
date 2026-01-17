@@ -27,31 +27,30 @@ async function loadPendingArticles() {
                 </td>
             `;
 
-            // Approve butonu
             tr.querySelector(".approve-btn").onclick = async () => {
                 try {
                     await updateDoc(doc(db, "articles", docSnap.id), { status: "approved" });
-                    tr.remove(); // tablo güncelle
+                    tr.remove();
                 } catch (err) {
-                    alert("Approve işlemi başarısız: " + err.message);
+                    alert("Approve action failed: " + err.message);
                 }
             };
 
-            // Reject butonu
+            
             tr.querySelector(".reject-btn").onclick = async () => {
                 try {
                     await updateDoc(doc(db, "articles", docSnap.id), { status: "rejected" });
-                    tr.remove(); // tablo güncelle
+                    tr.remove(); 
                 } catch (err) {
-                    alert("Reject işlemi başarısız: " + err.message);
+                    alert("Reject action failed: " + err.message);
                 }
             };
 
             tbody.appendChild(tr);
         });
     } catch (err) {
-        console.error("Pending articles çekilemedi:", err);
-        alert("Pending articles çekilemedi: " + err.message);
+        console.error("Pending articles could not be retrieved:", err);
+        alert("Pending articles could not be retrieved: " + err.message);
     }
 }
 

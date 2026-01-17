@@ -2,15 +2,10 @@ import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-/**
- * checkRole([allowedRoles])
- * allowedRoles: array of strings, örn: ["admin"], ["author", "editor"]
- * Eğer kullanıcı yetkili değilse redirect olur
- */
+
 export function checkRole(allowedRoles = []) {
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
-            // Oturum yok → home sayfasına yönlendir
             window.location.href = "index.html";
             return;
         }
@@ -27,7 +22,7 @@ export function checkRole(allowedRoles = []) {
             const role = docSnap.data().role;
 
             if (!allowedRoles.includes(role)) {
-                alert("Bu sayfaya erişim yetkiniz yok.");
+                alert("You do not have permission to access this page.");
                 window.location.href = "index.html";
             }
         } catch (err) {

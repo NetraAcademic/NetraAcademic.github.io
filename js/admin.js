@@ -2,7 +2,7 @@ import { db } from "./firebase-config.js";
 import { collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const tbody = document.querySelector("#user-table tbody");
-const roles = ["reader", "author", "editor", "admin"]; // banned kaldırıldı
+const roles = ["reader", "author", "editor", "admin"]; 
 
 export async function loadUsers() {
     try {
@@ -22,7 +22,7 @@ export async function loadUsers() {
                         ${roles.map(r => `<option value="${r}" ${user.role === r ? "selected" : ""}>${r}</option>`).join("")}
                     </select>
                 </td>
-                <td><button data-uid="${user.uid}">Güncelle</button></td>
+                <td><button data-uid="${user.uid}">Update Role</button></td>
             `;
             
             tbody.appendChild(tr);
@@ -34,17 +34,17 @@ export async function loadUsers() {
                 const newRole = select.value;
                 try {
                     await updateDoc(doc(db, "users", user.uid), { role: newRole });
-                    alert(`${user.displayName} rolü "${newRole}" olarak güncellendi!`);
+                    alert(`${user.displayName}'s role has been updated to ${newRole}!`);
                     loadUsers();
                 } catch (err) {
-                    console.error("Rol güncellenemedi:", err);
-                    alert("Rol güncellenemedi: " + err.message);
+                    console.error("Role could not be updated:", err);
+                    alert("Role could not be updated: " + err.message);
                 }
             };
         });
     } catch (err) {
-        console.error("Kullanıcılar çekilemedi:", err);
-        alert("Kullanıcılar çekilemedi: " + err.message);
+        console.error("Users could not be retrieved:", err);
+        alert("Users could not be retrieved: " + err.message);
     }
 }
 

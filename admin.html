@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script type="module">
         import { checkRole } from "./js/auth-guard.js";
-        checkRole(["admin"]); // sadece admin erişebilir
+        checkRole(["admin"]); 
     </script>
 </head>
 <body>
@@ -21,7 +21,7 @@
                 <li><a href="index.html">Home</a></li>
             </ul>
             <ul class="nav-right">
-                <!-- JS ile login/logout ve kullanıcı adı gelecek -->
+
             </ul>
         </nav>
     </header>
@@ -32,7 +32,6 @@
             <p>Dear Admin, 
             You can change the roles of users here.</p>
 
-            <!-- Kullanıcı tablosu -->
             <table id="user-table">
                 <thead>
                     <tr>
@@ -44,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- JS ile Firestore’dan kullanıcı verileri buraya doldurulacak -->
+                    
                 </tbody>
             </table>
         </section>
@@ -59,7 +58,7 @@
         </p>
     </footer>
 
-    <!-- JS -->
+
     <script type="module" src="js/admin.js"></script>
 </body>
 </html>

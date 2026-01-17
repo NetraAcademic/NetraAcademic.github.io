@@ -1,6 +1,13 @@
 import { auth, db } from "./firebase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import {
+  collection,
+  addDoc,
+  updateDoc,   
+  doc,         
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { uploadArticleFile, getArticleFileUrl } from "./upload.js";
 
 const form = document.getElementById("article-form");
 const textarea = document.getElementById("content");
@@ -13,36 +20,50 @@ textarea.addEventListener("input", () => {
 
 onAuthStateChanged(auth, (user) => {
     if (!user) {
-        alert("Yazı göndermek için giriş yapmalısınız.");
+        alert("You must log in to submit a post.");
         window.location.href = "index.html";
         return;
     }
 
     form.onsubmit = async (e) => {
         e.preventDefault();
+
         const title = document.getElementById("title").value.trim();
         const content = document.getElementById("content").value.trim();
+        const file = document.getElementById("file").files[0];
 
-        if (!title || !content) return alert("Başlık ve içerik gerekli.");
-
+        if (!title || !content) {
+          alert("Title and content are required.");
+          return;
+        }
+    
         try {
-            await addDoc(collection(db, "articles"), {
-                title,
-                content,
-                authorUid: user.uid,
-                authorName: user.displayName || "",
-                createdAt: serverTimestamp(),
-                status: "pending" // başlangıçta pending
-            });
-            alert("Yazınız başarıyla gönderildi!");
-            form.reset();
-            
-            counter.textContent = `0 / ${maxChars}`;
-            textarea.style.height = "auto";
+          const docRef = await addDoc(collection(db, "articles"), {
+            title,
+            content,
+            authorUid: user.uid,
+            authorName: user.displayName || "",
+            createdAt: serverTimestamp(),
+            status: "pending"
+          });
+      
+          if (file) {
+            const filePath = await uploadArticleFile(docRef.id, file);
+            const fileUrl = getArticleFileUrl(filePath);
 
+            await updateDoc(
+              doc(db, "articles", docRef.id),
+              { fileUrl }
+            );
+          }
+      
+          alert("Your post has been submitted successfully!");
+          form.reset();
+          counter.textContent = `0 / ${maxChars}`;
+      
         } catch (err) {
-            console.error("Yazı gönderilemedi:", err);
-            alert("Yazı gönderilemedi: " + err.message);
+          console.error(err);
+          alert("Submission failed: " + err.message);
         }
     };
 });

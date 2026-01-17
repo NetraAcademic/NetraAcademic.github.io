@@ -4,7 +4,6 @@
     box-sizing: border-box;
 }
 
-/* ROOT */
 :root {
     --bg-main: #0b1437;
     --bg-card: #111c4d;
@@ -15,7 +14,6 @@
     --border-soft: rgba(255,255,255,0.08);
 }
 
-/* BODY */
 body {
     font-family: "Montserrat", Arial, sans-serif;
     background: radial-gradient(circle at top, #122063, var(--bg-main));
@@ -32,7 +30,6 @@ html, body {
     flex-direction: column;
 }
 
-/* Navbar responsive */
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -47,7 +44,7 @@ html, body {
 
 @media (max-width: 768px) {
     main {
-        padding: 40px 16px; /* içerik kenarlara dayanmasın */
+        padding: 40px 16px;
     }
 
     .article-card {
@@ -99,7 +96,6 @@ html, body {
     }
 }
 
-/* LINKS */
 a {
     color: var(--text-muted);
     text-decoration: none;
@@ -109,7 +105,6 @@ a:hover {
     color: var(--text-main);
 }
 
-/* HEADER */
 header {
     padding: 24px 40px;
     border-bottom: 1px solid var(--border-soft);
@@ -129,7 +124,6 @@ header div{
     height: 64px;
 }
 
-/* NAVBAR */
 .navbar {
     display: flex;
     align-items: center;
@@ -165,7 +159,6 @@ ar ul {
     transition: color 0.2s ease;
 }
 
-/* underline hover */
 .nav-left li a::after {
     content: "";
     position: absolute;
@@ -185,7 +178,6 @@ ar ul {
     width: 100%;
 }
 
-/* Sağdaki login button */
 .nav-right {
     list-style: none;
     display: flex;
@@ -220,7 +212,6 @@ ar ul {
     position: relative;
 }
 
-/* underline animation */
 .navbar a::after {
     content: "";
     position: absolute;
@@ -245,21 +236,20 @@ ar ul {
 }
 
 .nav-brand img {
-    height: 64px;   /* ideal navbar boyutu */
+    height: 64px;
     width: auto;
     margin-top: auto;
     margin-bottom: auto;
 }
-/* MAIN */
+
 main {
-    flex: 1;           /* main kalan alanı kaplasın */
+    flex: 1;           
     max-width: 900px;
     width: 100%;
-    margin: 0 auto;    /* yatay merkezleme */
-    padding: 60px 20px 20px; /* üstten boşluk, alttan padding */
+    margin: 0 auto;    
+    padding: 60px 20px 20px; 
 }
 
-/* SECTIONS */
 section {
     margin-bottom: 60px;
 }
@@ -272,7 +262,6 @@ section h2 {
     border-bottom: 1px solid var(--border-soft);
 }
 
-/* ARTICLE CARD */
 article {
     background: linear-gradient(
         180deg,
@@ -302,7 +291,6 @@ article p {
     margin-bottom: 8px;
 }
 
-/* FORMS */
 form {
     max-width: 500px;
     margin-top: 30px;
@@ -310,10 +298,12 @@ form {
 
 form label {
     display: block;
-    margin-bottom: 18px;
+    margin-top: 16px;   
+    margin-bottom: 10px;
     font-size: 0.85rem;
     color: var(--text-muted);
 }
+
 
 form input,
 form textarea {
@@ -350,8 +340,29 @@ form textarea:focus {
     line-height: 1.5;
 }
 
+.file-btn {
+  margin-top: 10px;
+    padding: 12px 26px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #5b86ff, #3f6bff);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    width: 140px;
+    height: 41.33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-/* BUTTON */
+.file-btn:hover {
+  transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79,124,255,0.35);
+}
+
 form button {
     margin-top: 10px;
     padding: 12px 26px;
@@ -376,7 +387,6 @@ form button:active {
     opacity: 0.9;
 }
 
-/* FOOTER */
 footer {
     border-top: 1px solid var(--border-soft);
     padding: 24px;
@@ -418,7 +428,7 @@ footer {
     color: #fff;
     font-size: 0.85rem;
 }
-/* Editor Panel Tablosu */
+
 #pending-articles-table {
     width: 100%;
     border-collapse: collapse;
@@ -433,7 +443,7 @@ footer {
     padding: 10px 12px;
     text-align: left;
     vertical-align: middle;
-    white-space: nowrap; /* hücre içi satır kaymasını önler */
+    white-space: nowrap; 
 }
 
 #pending-articles-table th {
@@ -450,7 +460,6 @@ footer {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Linkleri vurgula */
 #pending-articles-table a {
     color: var(--accent);
     text-decoration: none;
@@ -462,7 +471,6 @@ footer {
     text-decoration: underline;
 }
 
-/* Buton stili */
 #pending-articles-table button {
     cursor: pointer;
     padding: 6px 12px;
@@ -502,7 +510,7 @@ footer {
     box-shadow: none;
     opacity: 0.9;
 }
-/* Articles listesi / kartları */
+
 .articles-list {
     display: flex;
     flex-direction: column;
@@ -515,7 +523,7 @@ footer {
     border-radius: 12px;
     padding: 20px;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer; /* tıklanabilir olduğunu gösterir */
+    cursor: pointer;
 }
 
 .article-card:hover {
@@ -552,8 +560,5 @@ footer {
 h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
-
-
-
 
 

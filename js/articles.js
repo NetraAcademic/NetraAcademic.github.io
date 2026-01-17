@@ -20,7 +20,6 @@ async function loadApprovedArticles() {
             const div = document.createElement("div");
             div.classList.add("article-card");
 
-            // Tüm kart tıklanabilir olsun
             div.onclick = () => {
                 window.location.href = `article.html?id=${docSnap.id}`;
             };
@@ -34,10 +33,10 @@ async function loadApprovedArticles() {
             articlesList.appendChild(div);
         });
     } catch (err) {
-        console.error("Articles çekilemedi:", err);
-        articlesList.innerHTML = "<p>Articles yüklenemedi: " + err.message + "</p>";
+        console.error("Articles could not be retrieved:", err);
+        articlesList.innerHTML = "<p>Articles could not be loaded: " + err.message + "</p>";
     }
 }
 
-// Sayfa açıldığında yükle
+
 loadApprovedArticles();
