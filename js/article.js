@@ -41,7 +41,7 @@ async function loadArticle() {
 
         <p>
            <a href="${article.fileUrl}" target="_blank">
-            Download Article File (PDF)
+            View Article File (PDF)
           </a>
         </p>
       `;
