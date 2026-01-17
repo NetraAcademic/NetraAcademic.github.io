@@ -561,46 +561,4 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     font-family: 'Montserrat', Arial, sans-serif;
 }
 
-#file-status {
-    font-size: 0.85rem;
-    color: #4f7cff; 
-    font-weight: 500;
-}
 
-#file-status {
-    font-size: 0.85rem;
-    color: #4f7cff; 
-    font-weight: 500;
-    line-height: 1.2;      
-    word-break: break-all; 
-}
-
-#file-status-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;            
-    margin-top: 6px;
-    flex-wrap: wrap;      
-}
-
-#remove-file-btn {
-    font-size: 1rem;
-    line-height: 1; 
-    padding: 0;
-    border: none;
-    background: none;
-    color: #f44336;
-    cursor: pointer;
-    transition: color 0.2s ease, transform 0.15s ease;
-    margin-top: 4px;
-}
-
-#remove-file-btn:hover {
-    color: #ff6b6b;
-    transform: scale(1.1);
-}
-
-#file-status.hide {
-    opacity: 0;
-    transform: translateY(-5px);
-}
