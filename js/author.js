@@ -14,6 +14,32 @@ const textarea = document.getElementById("content");
 const counter = document.getElementById("char-counter")
 const maxChars = 3000
 
+const fileInput = document.getElementById("file");
+const fileStatus = document.getElementById("file-status");
+const removeFileBtn = document.getElementById("remove-file-btn");
+
+fileInput.addEventListener("change", () => {
+    if (fileInput.files.length > 0) {
+        fileStatus.textContent = `Dosya yüklendi: ${fileInput.files[0].name}`;
+        removeFileBtn.style.display = "inline";
+    } else {
+        fileStatus.textContent = "";
+        removeFileBtn.style.display = "none"; 
+    }
+});
+
+removeFileBtn.addEventListener("click", () => {
+    fileInput.value = "";
+    fileStatus.textContent = "";
+    removeFileBtn.style.display = "none";
+});
+
+form.addEventListener("submit", () => {
+    fileInput.value = "";
+    fileStatus.textContent = "";
+    removeFileBtn.style.display = "none";
+});
+
 textarea.addEventListener("input", () => {
     counter.textContent = `${textarea.value.length} / ${maxChars}`;
 });
