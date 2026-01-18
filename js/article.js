@@ -4,6 +4,7 @@ import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-
 const params = new URLSearchParams(window.location.search);
 const articleId = params.get("id");
 
+const pageTitle = document.getElementById("page-title");
 const titleEl = document.getElementById("article-title");
 const metaEl = document.getElementById("article-meta");
 const contentEl = document.getElementById("article-content");
@@ -25,6 +26,7 @@ async function loadArticle() {
 
     const article = docSnap.data();
 
+    pageTitle.textContent = article.title || "";
     titleEl.textContent = article.title || "";
     metaEl.textContent = `By ${article.authorName || ""} | ${
       article.createdAt?.toDate().toLocaleString() || ""
