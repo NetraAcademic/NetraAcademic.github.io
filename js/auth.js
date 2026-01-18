@@ -56,7 +56,7 @@ async function getUserRole(uid) {
 
 
 function getNavbarItems(role) {
-    const items = ["Home", "Articles"];
+    const items = [ "Articles"];
     if (role === "author") items.push("Send Article");
     else if (role === "editor") items.push("Pending Articles");
     else if (role === "admin") items.push("Send Article", "Pending Articles", "Admin Panel");
@@ -66,7 +66,7 @@ function getNavbarItems(role) {
 
 function getLink(item) {
     switch (item) {
-        case "Home": return "index.html";
+        //case "Home": return "index.html";
         case "Articles": return "articles.html";
         case "Send Article": return "author.html";
         case "Pending Articles": return "editor.html";
@@ -112,9 +112,9 @@ export function trackAuthState() {
         }
 
        
-        let items = ["Home", "Articles"];
+        let items = [ "Articles"];
         if (role === "author") items.push("Send Article");
-        else if (role === "editor") items.push("Pending Articles");
+        else if (role === "editor") items.push("Send Article", "Pending Articles");
         else if (role === "admin") items.push("Send Article", "Pending Articles", "Admin Panel");
 
     

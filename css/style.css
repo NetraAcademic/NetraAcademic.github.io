@@ -117,6 +117,19 @@ html, body {
         transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
         max-width: 100px;
     }
+    /* Table wrapper ile yatay kaydırma */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* mobilde smooth scroll */
+    }
+
+    /* Tabloya minimum width ver */
+    .table-responsive table {
+        width: 100%;
+        min-width: 600px; /* istersen tabloların daralmasını engellemek için */
+        border-collapse: collapse;
+    }
 }
 
 /* Resimler responsive olsun */
@@ -137,15 +150,25 @@ img {
         display: block !important; /* önemli! diğer display:none kurallarını geçersiz kılar */
         align-self: flex-start;
         margin-top: 8px;
-        font-size: 1.5rem;
-        background: none;
-        border: none;
-        color: #9fb2e5;
-        cursor: pointer;
+        font-size: 1.2rem !important;
+        background: none !important;
+        border: none !important;
+        color: #9fb2e5 !important;
+        cursor: pointer !important;
         z-index: 1000; /* menünün üstünde görünmesi için */
     }
 
-    .nav-left,
+    .nav-left{
+        /*display: none; başlangıçta kapalı */
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-left li {
+        display: none;
+    }
+
     .nav-right {
         display: none; /* başlangıçta kapalı */
         width: 100%;
@@ -156,6 +179,35 @@ img {
     .navbar.active .nav-left,
     .navbar.active .nav-right {
         display: flex; /* toggle ile açıldığında */
+    }
+
+    .nav-left .back {
+        display: flex !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* SADECE index sayfası */
+    body.page-index .nav-left {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* index'te mobilde tüm li'leri gizle */
+    body.page-index .nav-left li {
+        display: none;
+    }
+
+    /* SADECE back görünsün */
+    body.page-index .nav-left li.nav-back {
+        display: flex;
+    }
+
+    /* Menü açılınca hepsi gelsin */
+    body.page-index .navbar.active .nav-left li {
+        display: flex;
     }
 }
 
@@ -654,16 +706,3 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
     transform: translateY(-5px);
 }
 
-/* Table wrapper ile yatay kaydırma */
-.table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* mobilde smooth scroll */
-}
-
-/* Tabloya minimum width ver */
-.table-responsive table {
-    width: 100%;
-    min-width: 600px; /* istersen tabloların daralmasını engellemek için */
-    border-collapse: collapse;
-}
