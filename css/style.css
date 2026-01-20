@@ -762,3 +762,11 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
   height: 22px;
   color: #000;
 }
+
+.footer-button{
+    margin: 10px;
+}
+
+.copyright + .footer-panel{
+    margin-top: 8px;
+}
