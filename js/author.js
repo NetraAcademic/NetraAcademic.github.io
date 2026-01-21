@@ -10,6 +10,7 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/fi
 import { uploadArticleFile, getArticleFileUrl } from "./upload.js";
 
 const form = document.getElementById("article-form");
+const keywordsInput = document.getElementById("keywords");
 const textarea = document.getElementById("content");
 const counter = document.getElementById("char-counter")
 const maxChars = 3000
@@ -40,45 +41,55 @@ onAuthStateChanged(auth, (user) => {
         return;
     }
 
-    form.onsubmit = async (e) => {
-        e.preventDefault();
+form.onsubmit = async (e) => {
+  e.preventDefault();
 
-        const title = document.getElementById("title").value.trim();
-        const content = document.getElementById("content").value.trim();
-        const file = document.getElementById("file").files[0];
+  const title = document.getElementById("title").value.trim();
+  const content = document.getElementById("content").value.trim();
+  const rawKeywords = document.getElementById("keywords").value;
+  const file = document.getElementById("file").files[0];
 
-        if (!title || !content) {
-          alert("Title and content are required.");
-          return;
-        }
-    
-        try {
-          const docRef = await addDoc(collection(db, "articles"), {
-            title,
-            content,
-            authorUid: user.uid,
-            authorName: user.displayName || "",
-            createdAt: serverTimestamp(),
-            status: "pending"
-          });
-      
-          if (file) {
-            const filePath = await uploadArticleFile(docRef.id, file);
-            const fileUrl = getArticleFileUrl(filePath);
+  if (!title || !content) {
+    alert("Title and content are required.");
+    return;
+  }
 
-            await updateDoc(
-              doc(db, "articles", docRef.id),
-              { fileUrl }
-            );
-          }
-      
-          alert("Your post has been submitted successfully!");
-          form.reset();
-          counter.textContent = `0 / ${maxChars}`;
-      
-        } catch (err) {
-          console.error(err);
-          alert("Submission failed: " + err.message);
-        }
-    };
+  // ===== KEYWORDS PARSE =====
+  const keywords = rawKeywords
+    .split(",")
+    .map(k => k.trim().toLowerCase())
+    .filter(k => k.length > 0);
+
+  try {
+    // ===== CREATE ARTICLE =====
+    const docRef = await addDoc(collection(db, "articles"), {
+      title,
+      content,
+      keywords,              // 👈 KEYWORDS KAYDEDİLİYOR
+      authorUid: user.uid,
+      authorName: user.displayName || "",
+      createdAt: serverTimestamp(),
+      status: "pending"
+    });
+
+    // ===== FILE UPLOAD =====
+    if (file) {
+      const filePath = await uploadArticleFile(docRef.id, file);
+      const fileUrl = getArticleFileUrl(filePath);
+
+      await updateDoc(
+        doc(db, "articles", docRef.id),
+        { fileUrl }
+      );
+    }
+
+    alert("Your post has been submitted successfully!");
+    form.reset();
+    counter.textContent = `0 / ${maxChars}`;
+
+  } catch (err) {
+    console.error(err);
+    alert("Submission failed: " + err.message);
+  }
+};
 });

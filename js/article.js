@@ -8,6 +8,14 @@ const pageTitle = document.getElementById("page-title");
 const titleEl = document.getElementById("article-title");
 const metaEl = document.getElementById("article-meta");
 const contentEl = document.getElementById("article-content");
+const metaTitle = document.getElementById("meta-title");
+const metaDescription = document.getElementById("meta-description");
+const metaKeywords = document.getElementById("meta-keywords");
+const ogTitle = document.getElementById("og-title");
+const ogDescription = document.getElementById("og-description");
+const canonical = document.getElementById("canonical-url");
+
+
 
 async function loadArticle() {
   if (!articleId) {
@@ -25,6 +33,39 @@ async function loadArticle() {
     }
 
     const article = docSnap.data();
+
+    console.log("KEYWORDS:", article.keywords);
+    
+    // ===== META TAGS =====
+    metaTitle.textContent = article.title || "Article";
+    document.title = article.title || "Article";
+
+    metaDescription.setAttribute(
+      "content",
+      article.content
+        ? article.content.substring(0, 150)
+        : ""
+    );
+
+    metaKeywords.setAttribute(
+      "content",
+      Array.isArray(article.keywords)
+        ? article.keywords.join(", ")
+        : ""
+    );
+
+    ogTitle.setAttribute("content", article.title || "");
+    ogDescription.setAttribute(
+      "content",
+      article.content
+        ? article.content.substring(0, 150)
+        : ""
+    );
+
+    canonical.setAttribute(
+      "href",
+      `https://siteadi.com/article.html?id=${articleId}`
+    );
 
     pageTitle.textContent = article.title || "";
     titleEl.textContent = article.title || "";
