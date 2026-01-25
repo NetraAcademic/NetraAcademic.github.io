@@ -14,6 +14,7 @@ const metaKeywords = document.getElementById("meta-keywords");
 const ogTitle = document.getElementById("og-title");
 const ogDescription = document.getElementById("og-description");
 const canonical = document.getElementById("canonical-url");
+const commentsList = document.getElementById("comments-list")
 
 
 
@@ -110,12 +111,20 @@ async function loadComments() {
   );
 
   const snapshot = await getDocs(q);
+
+  commentsList.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    commentsList.innerHTML += `
+
   const list = document.getElementById("comments-list");
   list.innerHTML = "";
 
   snapshot.forEach(doc => {
     const data = doc.data();
     list.innerHTML += `
+
       <div class="comment">
         <p>${data.text}</p>
         <small>${data.createdAt?.toDate().toLocaleString() || ""}</small>
@@ -123,6 +132,27 @@ async function loadComments() {
     `;
   });
 }
+
+
+const commentForm = document.querySelector("#comment-section form");
+
+commentForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const input = document.getElementById("comment-input");
+  const text = input.value.trim();
+  if (!text || !articleId) return;
+
+  await addDoc(collection(db, "comments"), {
+    articleId,
+    text,
+    createdAt: serverTimestamp()
+  });
+
+  input.value = "";
+  loadComments();
+});
+loadComments();
 
 const submitBtn = document.getElementById("comment-submit");
 if (submitBtn) {
