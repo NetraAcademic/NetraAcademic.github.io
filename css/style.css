@@ -770,3 +770,97 @@ h1, h2, h3, h4, h5, h6, p, a, label, input, textarea, button {
 .copyright + .footer-panel{
     margin-top: 8px;
 }
+
+textarea{
+    resize: none
+}
+
+#comments-section {
+    background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.04),
+        rgba(255,255,255,0.01)
+    );
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    padding: 24px;
+}
+
+#comments-section h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+/* Yorum listesi */
+#comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Tek yorum */
+.comment {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.comment p {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.comment small {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* Yorum textarea */
+#comment-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+#comment-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+#comment-submit {
+    margin-top: 12px;
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #5b86ff, #3f6bff);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+#comment-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(79,124,255,0.35);
+}
+
+#comment-submit:active {
+    transform: translateY(0);
+    box-shadow: none;
+    opacity: 0.9;
+}
