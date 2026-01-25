@@ -1,5 +1,6 @@
 import { db } from "./firebase-config.js";
 import { doc, getDoc, collection, addDoc, query, where, getDocs, orderBy, serverTimestamp} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const params = new URLSearchParams(window.location.search);
 const articleId = params.get("id");
@@ -15,7 +16,13 @@ const ogTitle = document.getElementById("og-title");
 const ogDescription = document.getElementById("og-description");
 const canonical = document.getElementById("canonical-url");
 const commentsList = document.getElementById("comments-list")
+const auth = getAuth();
 
+let currentUser = null;
+
+onAuthStateChanged(auth, (user) => {
+  currentUser = user; // login varsa user, yoksa null
+});
 
 
 async function loadArticle() {
@@ -118,7 +125,10 @@ async function loadComments() {
     commentsList.innerHTML += `
       <div class="comment">
         <p>${data.text}</p>
-        <small>${data.createdAt?.toDate().toLocaleString() || ""}</small>
+        <small>
+          ${data.createdAt?.toDate().toLocaleString() || ""}
+          ${data.authorName || "Anonymous"} •
+        </small>
       </div>
     `;
   });
@@ -133,11 +143,15 @@ commentForm.addEventListener("submit", async (e) => {
   const text = input.value.trim();
   if (!text || !articleId) return;
 
-  await addDoc(collection(db, "comments"), {
-    articleId,
-    text,
-    createdAt: serverTimestamp()
-  });
+await addDoc(collection(db, "comments"), {
+  articleId,
+  text,
+  authorId: currentUser ? currentUser.uid : null,
+  authorName: currentUser
+    ? (currentUser.displayName || currentUser.email)
+    : "Anonymous",
+  createdAt: serverTimestamp()
+});
 
   input.value = "";
   loadComments();
