@@ -1,5 +1,5 @@
 import { db } from "./firebase-config.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { doc, getDoc, collection, addDoc, query, where, getDocs, orderBy, serverTimestamp} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
 const articleId = params.get("id");
@@ -99,3 +99,47 @@ async function loadArticle() {
 }
 
 loadArticle();
+
+async function loadComments() {
+  if (!articleId) return;
+
+  const q = query(
+    collection(db, "comments"),
+    where("articleId", "==", articleId),
+    orderBy("createdAt", "asc")
+  );
+
+  const snapshot = await getDocs(q);
+  const list = document.getElementById("comments-list");
+  list.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    list.innerHTML += `
+      <div class="comment">
+        <p>${data.text}</p>
+        <small>${data.createdAt?.toDate().toLocaleString() || ""}</small>
+      </div>
+    `;
+  });
+}
+
+const submitBtn = document.getElementById("comment-submit");
+if (submitBtn) {
+  submitBtn.addEventListener("click", async () => {
+    const input = document.getElementById("comment-input");
+    const text = input.value.trim();
+    if (!text || !articleId) return;
+
+    await addDoc(collection(db, "comments"), {
+      articleId,
+      text,
+      createdAt: serverTimestamp()
+    });
+
+    input.value = "";
+    loadComments();
+  });
+}
+
+loadComments();
