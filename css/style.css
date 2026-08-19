@@ -864,3 +864,107 @@ textarea{
     box-shadow: none;
     opacity: 0.9;
 }
+
+article,
+.article-content, #article-content {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Uzun başlıklar ve paragraflar */
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6,
+article p,
+article a,
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6,
+.article-content p,
+.article-content a,
+#article-content h1,
+#article-content h2,
+#article-content h3,
+#article-content h4,
+#article-content h5,
+#article-content h6,
+#article-content p,
+#article-content a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Resimler */
+article img,
+.article-content img,
+#article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Kod blokları */
+article pre,
+.article-content pre,
+#article-content pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    box-sizing: border-box;
+}
+
+/* Inline code */
+article code,
+.article-content code,
+#article-content code {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Tablolar */
+article table,
+.article-content table,
+#article-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    box-sizing: border-box;
+}
+
+/* Videolar / iframe */
+article iframe,
+article video,
+.article-content iframe,
+.article-content video,
+#article-content iframe,
+#article-content video {
+    max-width: 100%;
+}
+
+/* Yorumlar da taşmasın */
+#comments-section,
+#comments-list,
+.comment {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+#comment-input {
+    max-width: 100%;
+    box-sizing: border-box;
+}
