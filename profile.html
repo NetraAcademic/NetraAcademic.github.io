@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Profile | Netra Academic</title>
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+<body>
+    <header>
+        <h1>Profile</h1>
+        <nav class="navbar">
+            <ul class="nav-left">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a href="articles.html">Articles</a>
+                </li>
+                <li>
+                    <a href="profile.html">Profile</a>
+                </li>
+            </ul>
+            <ul class="nav-right">
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="profile-container">
+            <div class="profile-cover">
+                <img
+                    id="cover-image"
+                    alt="Profile Cover"
+                >
+            </div>
+
+            <div class="profile-header">
+                <div class="profile-avatar-wrap">
+                    <img
+                        id="profile-avatar"
+                        class="profile-avatar"
+                        alt="Profile Picture"
+                    >
+                    <label class="avatar-upload-btn" for="input-avatar-file" title="Upload avatar">
+                        <span>✎</span>
+                    </label>
+                    <input id="input-avatar-file" class="visually-hidden" type="file" accept="image/*">
+                </div>
+
+                <div class="profile-main-info">
+
+                    <h2 id="profile-display-name">
+                        Loading...
+                    </h2>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- Profil Detayları -->
+            <div class="profile-info">
+
+
+                <div class="profile-details">
+
+                    <a
+                        id="profile-website"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    ></a>
+
+
+                </div>
+
+                <div
+                    id="social-links"
+                    class="social-links"
+                ></div>
+            </div>
+
+            <form id="profile-form" class="profile-form">
+                <h3>Edit Profile</h3>
+
+                <label>
+                    Username
+                    <input id="input-username" type="text" placeholder="username">
+                </label>
+
+                <label>
+                    Display Name
+                    <input id="input-display-name" type="text" placeholder="Display Name">
+                </label>
+
+                <label>
+                    Email
+                    <input id="input-email" type="email" placeholder="email@example.com">
+                </label>
+
+                <label>
+                    Photo URL
+                    <input id="input-photo-url" type="url" placeholder="https://example.com/photo.jpg">
+                </label>
+
+                <label>
+                    Cover URL
+                    <input id="input-cover-url" type="url" placeholder="https://example.com/cover.jpg">
+                </label>
+
+                <label>
+                    Bio
+                    <textarea id="input-bio" rows="4" placeholder="Write a short bio..."></textarea>
+                </label>
+
+                <label>
+                    Location
+                    <input id="input-location" type="text" placeholder="City, Country">
+                </label>
+
+                <label>
+                    Website
+                    <input id="input-website" type="url" placeholder="https://yourwebsite.com">
+                </label>
+
+                <div class="social-inputs">
+                    <label>
+                        GitHub
+                        <input id="input-social-github" type="url" placeholder="https://github.com/username">
+                    </label>
+                    <label>
+                        LinkedIn
+                        <input id="input-social-linkedin" type="url" placeholder="https://linkedin.com/in/username">
+                    </label>
+                    <label>
+                        Twitter
+                        <input id="input-social-twitter" type="url" placeholder="https://x.com/username">
+                    </label>
+                    <label>
+                        Facebook
+                        <input id="input-social-facebook" type="url" placeholder="https://facebook.com/username">
+                    </label>
+                    <label>
+                        Instagram
+                        <input id="input-social-instagram" type="url" placeholder="https://instagram.com/username">
+                    </label>
+                    <label>
+                        YouTube
+                        <input id="input-social-youtube" type="url" placeholder="https://youtube.com/@username">
+                    </label>
+                </div>
+
+                <button type="submit" id="save-profile-btn">Save Profile</button>
+                <p id="profile-save-status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+    <script
+        type="module"
+        src="js/auth.js"
+    ></script>
+    <script
+        type="module"
+        src="js/profile.js"
+    ></script>
+</body>
+</html>
