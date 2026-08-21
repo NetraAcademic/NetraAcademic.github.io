@@ -1,6 +1,6 @@
 import { auth, provider, db } from "./firebase-config.js";
 import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { doc, getDoc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 
 const navLeft = document.querySelector(".nav-left");
@@ -16,18 +16,71 @@ export async function loginWithGoogle() {
         const docSnap = await getDoc(userRef);
         if(!docSnap.exists()){
             await setDoc(userRef, {
-                uid: user.uid,                
-                displayName: user.displayName,
+                uid: user.uid,
+                username: "",                
+                displayName: user.displayName || "",
                 email: user.email,
-                role: "author"
+                role: "author",
+                photoURL: user.photoURL || "",
+                coverURL: "",
+                bio: "",
+                socialLinks: {
+                    github: "",
+                    linkedin: "",
+                    twitter: "",
+                    facebook: "",
+                    instagram: "",
+                    youtube: "",
+                },
+                createdAt: serverTimestamp(),
+                lastActive: serverTimestamp()
             });
         } else {
-            await setDoc(userRef, {
-                uid: user.uid, 
-                displayName: user.displayName,
-                email: user.email,
-                role: docSnap.data().role
-            }, { merge: true });
+            const existingData = docSnap.data();
+            const updates = {};
+            updates.lastActive = serverTimestamp();
+            if (existingData.username === undefined) {
+                updates.username = "";
+            }
+            if (existingData.displayName == undefined) {
+                updates.displayName = user.displayName || "";
+            }
+            if (existingData.email === undefined) {
+                updates.email = user.email;
+            }
+            if (existingData.photoURL === undefined) {
+                updates.photoURL = user.photoURL || "";
+            }
+            if (existingData.coverURL === undefined) {
+                updates.coverURL = "";
+            }
+            if (existingData.bio === undefined) {
+                updates.bio = "";
+            }
+            if (existingData.location === undefined) {
+                updates.location = "";
+            }
+            if (existingData.website === undefined) {
+                updates.website = "";
+            }
+            if (existingData.socialLinks === undefined) {
+                updates.socialLinks = {
+                    github: "",
+                    linkedin: "",
+                    twitter: "",
+                    facebook: "",
+                    instagram: "",
+                    youtube: "",
+                };
+            }
+            if (existingData.createdAt === undefined) {
+                updates.createdAt = serverTimestamp();
+            }
+            if (Object.keys(updates).length > 0) {
+                await updateDoc(userRef, updates);
+            }
+
+            
         }
 
         return user;
@@ -56,7 +109,7 @@ async function getUserRole(uid) {
 
 
 function getNavbarItems(role) {
-    const items = [ "Articles"];
+    const items = ["Articles", "Profile"];
     if (role === "author") items.push("Send Article");
     else if (role === "editor") items.push("Pending Articles");
     else if (role === "admin") items.push("Send Article", "Pending Articles", "Admin Panel");
@@ -68,6 +121,7 @@ function getLink(item) {
     switch (item) {
         //case "Home": return "index.html";
         case "Articles": return "articles.html";
+        case "Profile": return "profile.html";
         case "Send Article": return "author.html";
         case "Pending Articles": return "editor.html";
         case "Admin Panel": return "admin.html";
@@ -112,14 +166,14 @@ export function trackAuthState() {
         }
 
        
-        let items = [ "Articles"];
+        let items = ["Articles", "Profile"];
         if (role === "author") items.push("Send Article");
         else if (role === "editor") items.push("Send Article", "Pending Articles");
         else if (role === "admin") items.push("Send Article", "Pending Articles", "Admin Panel");
 
     
         navLeft.innerHTML = items.map(item => `<li><a href="${getLink(item)}">${item}</a></li>`).join("");
-
+        
     
         if (user) {
             navRight.innerHTML = `
