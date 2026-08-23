@@ -219,7 +219,7 @@ auth.onAuthStateChanged(async (user) => {
     const bio = userData.bio || "No bio added yet.";
     const location = userData.location || "No location added yet.";
     const website = userData.website || "";
-    const photoURL = userData.photoURL || user?.photoURL || "";
+    const photoURL = userData.photoURL || "";
     const coverURL = userData.coverURL || "";
     const socialLinks = userData.socialLinks || {};
 
