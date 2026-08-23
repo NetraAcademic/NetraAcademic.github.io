@@ -17,8 +17,49 @@ const ogDescription = document.getElementById("og-description");
 const canonical = document.getElementById("canonical-url");
 const commentsList = document.getElementById("comments-list")
 const auth = getAuth();
+const defaultAvatar = "assets/logo.png";
 
 let currentUser = null;
+
+function formatTimestamp(value) {
+  if (!value) return "";
+  const date = typeof value.toDate === "function"
+    ? value.toDate()
+    : value instanceof Date
+      ? value
+      : new Date(value);
+  return Number.isNaN(date.getTime()) ? "" : date.toLocaleString();
+}
+
+function escapeHtml(value = "") {
+  return String(value).replace(/[&<>'"]/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;"
+  }[character]));
+}
+
+async function getAuthorProfile(uid, fallback = {}) {
+  if (!uid) return fallback;
+
+  const profileSnap = await getDoc(doc(db, "users", uid));
+  return profileSnap.exists() ? { ...fallback, ...profileSnap.data() } : fallback;
+}
+
+function renderAuthor(author, label = "") {
+  const name = author.displayName || author.authorName || author.email || "Anonymous";
+  const avatar = author.photoURL || author.authorPhotoURL || defaultAvatar;
+  const authorMarkup = author.uid || author.authorUid || author.authorId
+    ? `<a class="author-link" href="profile.html?id=${encodeURIComponent(author.uid || author.authorUid || author.authorId)}">
+        <img class="author-avatar" src="${escapeHtml(avatar)}" alt="${escapeHtml(name)} avatar">
+        <span>${escapeHtml(name)}</span>
+      </a>`
+    : `<span class="author-link"><img class="author-avatar" src="${escapeHtml(avatar)}" alt="Anonymous avatar"><span>${escapeHtml(name)}</span></span>`;
+
+  return `${label}${authorMarkup}`;
+}
 
 onAuthStateChanged(auth, (user) => {
   currentUser = user; // login varsa user, yoksa null
@@ -77,9 +118,8 @@ async function loadArticle() {
 
     pageTitle.textContent = article.title || "";
     titleEl.textContent = article.title || "";
-    metaEl.textContent = `By ${article.authorName || ""} | ${
-      article.createdAt?.toDate().toLocaleString() || ""
-    }`;
+    const author = await getAuthorProfile(article.authorUid, article);
+    metaEl.innerHTML = `${renderAuthor({ ...author, uid: article.authorUid }, "By ")} | ${formatTimestamp(article.createdAt)}`;
 
     let html = "";
 
@@ -120,18 +160,20 @@ async function loadComments() {
   const snapshot = await getDocs(q);
   commentsList.innerHTML = "";
 
-  snapshot.forEach(doc => {
-    const data = doc.data();
-    commentsList.innerHTML += `
+  const comments = await Promise.all(snapshot.docs.map(async (commentDoc) => {
+    const data = commentDoc.data();
+    const author = await getAuthorProfile(data.authorId, data);
+    return `
       <div class="comment">
-        <p>${data.text}</p>
+        <p>${escapeHtml(data.text)}</p>
         <small>
-          ${data.createdAt?.toDate().toLocaleString() || ""}
-          ${data.authorName || "Anonymous"} •
+          ${formatTimestamp(data.createdAt)} •
+          ${renderAuthor({ ...author, uid: data.authorId })}
         </small>
       </div>
     `;
-  });
+  }));
+  commentsList.innerHTML = comments.join("");
 }
 
 const commentForm = document.querySelector("#comment-section form");
@@ -143,13 +185,19 @@ commentForm.addEventListener("submit", async (e) => {
   const text = input.value.trim();
   if (!text || !articleId) return;
 
+const profileSnap = currentUser
+  ? await getDoc(doc(db, "users", currentUser.uid))
+  : null;
+const profile = profileSnap?.exists() ? profileSnap.data() : {};
+
 await addDoc(collection(db, "comments"), {
   articleId,
   text,
   authorId: currentUser ? currentUser.uid : null,
   authorName: currentUser
-    ? (currentUser.displayName || currentUser.email)
+    ? (profile.displayName || currentUser.displayName || currentUser.email)
     : "Anonymous",
+  authorPhotoURL: currentUser ? (profile.photoURL || currentUser.photoURL || "") : "",
   createdAt: serverTimestamp()
 });
 

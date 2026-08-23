@@ -3,6 +3,16 @@ import { collection, query, where, getDocs, orderBy } from "https://www.gstatic.
 
 const articlesList = document.getElementById("articles-list");
 
+function formatTimestamp(value) {
+    if (!value) return "";
+    const date = typeof value.toDate === "function"
+        ? value.toDate()
+        : value instanceof Date
+            ? value
+            : new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : date.toLocaleString();
+}
+
 async function loadApprovedArticles() {
     try {
         const q = query(
@@ -26,7 +36,7 @@ async function loadApprovedArticles() {
 
             div.innerHTML = `
                 <h3>${article.title}</h3>
-                <p class="article-meta">By ${article.authorName} | ${article.createdAt?.toDate().toLocaleString() || ""}</p>
+                <p class="article-meta">By ${article.authorName} | ${formatTimestamp(article.createdAt)}</p>
                 <p class="article-preview">${article.content.substring(0, 200)}${article.content.length > 200 ? "..." : ""}</p>
             `;
 

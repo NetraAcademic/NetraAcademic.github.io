@@ -4,6 +4,7 @@ import {
   addDoc,
   updateDoc,   
   doc,         
+  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
@@ -14,15 +15,23 @@ const keywordsInput = document.getElementById("keywords");
 const textarea = document.getElementById("content");
 const counter = document.getElementById("char-counter")
 const maxChars = 3000
+const maxFileSize = 20 * 1024 * 1024;
 
 const fileInput = document.getElementById("file");
 const fileStatus = document.getElementById("file-status");
 
 fileInput.addEventListener("change", () => {
-    if (fileInput.files.length > 0) {
-        fileStatus.textContent = `Dosya yüklendi: ${fileInput.files[0].name}`;
+  const file = fileInput.files[0];
+  if (file && file.size > maxFileSize) {
+    fileInput.value = "";
+    fileStatus.textContent = "This file exceeds the 20 MB limit. Please choose a smaller PDF.";
+    fileStatus.classList.add("show");
+  } else if (file) {
+    fileStatus.textContent = `Dosya yüklendi: ${file.name}`;
+    fileStatus.classList.add("show");
     } else {
         fileStatus.textContent = "";
+    fileStatus.classList.remove("show");
     }
 });
 
@@ -54,6 +63,12 @@ form.onsubmit = async (e) => {
     return;
   }
 
+  if (file && file.size > maxFileSize) {
+    fileStatus.textContent = "This file exceeds the 20 MB limit. Please choose a smaller PDF.";
+    fileStatus.classList.add("show");
+    return;
+  }
+
   // ===== KEYWORDS PARSE =====
   const keywords = rawKeywords
     .split(",")
@@ -61,13 +76,17 @@ form.onsubmit = async (e) => {
     .filter(k => k.length > 0);
 
   try {
+    const profileSnap = await getDoc(doc(db, "users", user.uid));
+    const profile = profileSnap.exists() ? profileSnap.data() : {};
+
     // ===== CREATE ARTICLE =====
     const docRef = await addDoc(collection(db, "articles"), {
       title,
       content,
       keywords,              // 👈 KEYWORDS KAYDEDİLİYOR
       authorUid: user.uid,
-      authorName: user.displayName || "",
+      authorName: profile.displayName || user.displayName || "",
+      authorPhotoURL: profile.photoURL || user.photoURL || "",
       createdAt: serverTimestamp(),
       status: "pending"
     });

@@ -1,6 +1,6 @@
-import { auth, provider, db } from "./firebase-config.js";
-import { signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
-import { doc, getDoc, updateDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { auth, db } from "./firebase-config.js";
+import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
 
 const navLeft = document.querySelector(".nav-left");
@@ -8,86 +8,7 @@ const navRight = document.querySelector(".nav-right");
 
 
 export async function loginWithGoogle() {
-    try {
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        const userRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(userRef);
-        if(!docSnap.exists()){
-            await setDoc(userRef, {
-                uid: user.uid,
-                username: "",                
-                displayName: user.displayName || "",
-                email: user.email,
-                role: "author",
-                photoURL: user.photoURL || "",
-                coverURL: "",
-                bio: "",
-                socialLinks: {
-                    github: "",
-                    linkedin: "",
-                    twitter: "",
-                    facebook: "",
-                    instagram: "",
-                    youtube: "",
-                },
-                createdAt: serverTimestamp(),
-                lastActive: serverTimestamp()
-            });
-        } else {
-            const existingData = docSnap.data();
-            const updates = {};
-            updates.lastActive = serverTimestamp();
-            if (existingData.username === undefined) {
-                updates.username = "";
-            }
-            if (existingData.displayName == undefined) {
-                updates.displayName = user.displayName || "";
-            }
-            if (existingData.email === undefined) {
-                updates.email = user.email;
-            }
-            if (existingData.photoURL === undefined) {
-                updates.photoURL = user.photoURL || "";
-            }
-            if (existingData.coverURL === undefined) {
-                updates.coverURL = "";
-            }
-            if (existingData.bio === undefined) {
-                updates.bio = "";
-            }
-            if (existingData.location === undefined) {
-                updates.location = "";
-            }
-            if (existingData.website === undefined) {
-                updates.website = "";
-            }
-            if (existingData.socialLinks === undefined) {
-                updates.socialLinks = {
-                    github: "",
-                    linkedin: "",
-                    twitter: "",
-                    facebook: "",
-                    instagram: "",
-                    youtube: "",
-                };
-            }
-            if (existingData.createdAt === undefined) {
-                updates.createdAt = serverTimestamp();
-            }
-            if (Object.keys(updates).length > 0) {
-                await updateDoc(userRef, updates);
-            }
-
-            
-        }
-
-        return user;
-    } catch(err) {
-        console.error("Login failed:", err.message);
-        alert("Login failed: " + err.message);
-    }
+    window.location.href = "auth.html?mode=login";
 }
 
 

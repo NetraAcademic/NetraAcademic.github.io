@@ -3,13 +3,18 @@ import { auth, db, storage } from "./firebase-config.js";
 import {
     doc,
     getDoc,
-    updateDoc
+    updateDoc,
+    collection,
+    getDocs,
+    query,
+    where
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 import {
     ref,
     uploadBytes,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-storage.js";
+import { updateProfile } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 function setText(id, value, fallback = "") {
     const el = document.getElementById(id);
@@ -25,6 +30,78 @@ function setImage(id, value, fallback = "") {
         el.style.display = "none";
     } else {
         el.style.display = "block";
+    }
+}
+
+function formatTimestamp(value, fallback = "Recently") {
+    if (!value) return fallback;
+    const date = typeof value.toDate === "function"
+        ? value.toDate()
+        : value instanceof Date
+            ? value
+            : new Date(value);
+    return Number.isNaN(date.getTime()) ? fallback : date.toLocaleDateString();
+}
+
+async function loadPublishedArticles(profileUid) {
+    const articlesContainer = document.getElementById("profile-articles");
+    if (!articlesContainer) return;
+
+    try {
+        const articlesQuery = query(
+            collection(db, "articles"),
+            where("authorUid", "==", profileUid)
+        );
+        const snapshot = await getDocs(articlesQuery);
+        articlesContainer.innerHTML = "";
+        const publishedArticles = snapshot.docs.filter(
+            (articleSnapshot) => articleSnapshot.data().status === "approved"
+        );
+
+        if (!publishedArticles.length) {
+            articlesContainer.innerHTML = "<p class=\"empty-state\">No published articles yet.</p>";
+            return;
+        }
+
+        publishedArticles.forEach((articleSnapshot) => {
+            const article = articleSnapshot.data();
+            const card = document.createElement("article");
+            card.className = "article-card";
+            card.tabIndex = 0;
+            card.setAttribute("role", "link");
+            const articleUrl = `article.html?id=${encodeURIComponent(articleSnapshot.id)}`;
+            const openArticle = () => {
+                window.location.href = articleUrl;
+            };
+            card.addEventListener("click", openArticle);
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    openArticle();
+                }
+            });
+
+            const title = document.createElement("h3");
+            const titleLink = document.createElement("a");
+            titleLink.href = articleUrl;
+            titleLink.textContent = article.title || "Untitled article";
+            title.appendChild(titleLink);
+
+            const meta = document.createElement("p");
+            meta.className = "article-meta";
+            meta.textContent = `Published ${formatTimestamp(article.createdAt)}`;
+
+            const preview = document.createElement("p");
+            preview.className = "article-preview";
+            const content = article.content || "";
+            preview.textContent = `${content.substring(0, 200)}${content.length > 200 ? "..." : ""}`;
+
+            card.append(title, meta, preview);
+            articlesContainer.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Published articles could not be retrieved:", error);
+        articlesContainer.innerHTML = "<p class=\"empty-state\">Published articles could not be loaded.</p>";
     }
 }
 
@@ -108,12 +185,25 @@ async function uploadAvatarFile(user, file) {
     return await getDownloadURL(storageRef);
 }
 
-auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-        return;
-    }
+async function uploadCoverFile(user, file) {
+    if (!file) return "";
 
-    const userRef = doc(db, "users", user.uid);
+    const extension = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
+    const fileName = `${user.uid}-cover-${Date.now()}.${extension}`;
+    const storageRef = ref(storage, `covers/${fileName}`);
+
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+}
+
+auth.onAuthStateChanged(async (user) => {
+    const requestedUid = new URLSearchParams(window.location.search).get("id");
+    const profileUid = requestedUid || user?.uid;
+    const isOwnProfile = Boolean(user && profileUid === user.uid);
+
+    if (!profileUid) return;
+
+    const userRef = doc(db, "users", profileUid);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
@@ -123,23 +213,29 @@ auth.onAuthStateChanged(async (user) => {
 
     const userData = userSnap.data();
 
-    const profileName = userData.displayName || user.displayName || "Unnamed User";
+    const profileName = userData.displayName || user?.displayName || "Unnamed User";
     const username = userData.username || "@user";
-    const email = userData.email || user.email || "No email";
+    const email = userData.email || user?.email || "No email";
     const bio = userData.bio || "No bio added yet.";
     const location = userData.location || "No location added yet.";
     const website = userData.website || "";
-    const photoURL = userData.photoURL || user.photoURL || "";
+    const photoURL = userData.photoURL || user?.photoURL || "";
     const coverURL = userData.coverURL || "";
     const socialLinks = userData.socialLinks || {};
+
+    if (!isOwnProfile) {
+        document.getElementById("profile-form")?.remove();
+        document.querySelector(".avatar-upload-btn")?.remove();
+        document.querySelector(".cover-upload-btn")?.remove();
+    }
 
     setText("profile-display-name", profileName);
     setText("profile-username", `@${username}`.replace(/^@+/, "@"));
     setText("profile-email", email);
     setText("profile-bio", bio);
     setText("profile-location", location);
-    setText("profile-created", "Created: " + (userData.createdAt?.toDate ? userData.createdAt.toDate().toLocaleDateString() : "Recently"));
-    setText("profile-last-active", "Last active: " + (userData.lastActive?.toDate ? userData.lastActive.toDate().toLocaleDateString() : "Recently"));
+    setText("profile-created", "Created: " + formatTimestamp(userData.createdAt));
+    setText("profile-last-active", "Last active: " + formatTimestamp(userData.lastActive));
 
     const websiteEl = document.getElementById("profile-website");
     if (websiteEl) {
@@ -158,28 +254,150 @@ auth.onAuthStateChanged(async (user) => {
     setImage("cover-image", coverURL, "assets/logo.png");
     renderSocialLinks(socialLinks);
     populateFormFields(userData);
+    loadPublishedArticles(profileUid);
 
-    const profileForm = document.getElementById("profile-form");
-    if (profileForm) {
+    const profileForm = isOwnProfile ? document.getElementById("profile-form") : null;
+    if (profileForm && user) {
         const avatarInput = document.getElementById("input-avatar-file");
+        const coverInput = document.getElementById("input-cover-file");
+        let pendingAvatarFile = null;
+        let pendingCoverFile = null;
+        const currentPhotoURL = photoURL;
+        const currentCoverURL = coverURL;
+
+        function openImagePreviewWindow(file, imageType) {
+            const previewURL = URL.createObjectURL(file);
+            const previewWindow = window.open("", "netra-image-preview", "width=620,height=560,resizable=yes");
+
+            if (!previewWindow) {
+                showSaveStatus("Please allow pop-ups to preview the image.", true);
+                URL.revokeObjectURL(previewURL);
+                return;
+            }
+
+            previewWindow.document.write(`
+                <!doctype html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Preview ${imageType}</title>
+                    <style>
+                        * { box-sizing: border-box; }
+                        body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #0b1437; color: #d6e1ff; font: 16px Arial, sans-serif; }
+                        main { width: min(100%, 560px); text-align: center; }
+                        h1 { margin: 0 0 18px; font-size: 1.25rem; }
+                        .preview { width: 100%; max-height: 390px; object-fit: contain; border: 1px solid rgba(255,255,255,.15); border-radius: 12px; background: rgba(255,255,255,.06); }
+                        .actions { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+                        button { border: 0; border-radius: 6px; padding: 11px 20px; color: #fff; font-weight: 600; cursor: pointer; }
+                        .apply { background: #287a55; }
+                        .cancel { background: #743b4b; }
+                        button:hover { filter: brightness(1.15); }
+                    </style>
+                </head>
+                <body>
+                    <main>
+                        <h1>Is this how you want your ${imageType === "avatar" ? "avatar" : "cover image"} to look?</h1>
+                        <img class="preview" src="${previewURL}" alt="${imageType} preview">
+                        <div class="actions">
+                            <button class="apply" type="button" data-action="apply">Yes, use this</button>
+                            <button class="cancel" type="button" data-action="cancel">No, choose another</button>
+                        </div>
+                    </main>
+                    <script>
+                        document.querySelectorAll("button").forEach((button) => {
+                            button.addEventListener("click", () => {
+                                window.opener.postMessage({ source: "netra-image-preview", action: button.dataset.action, imageType: "${imageType}" }, window.location.origin);
+                                window.close();
+                            });
+                        });
+                    <\/script>
+                </body>
+                </html>
+            `);
+            previewWindow.document.close();
+            previewWindow.focus();
+        }
+
+        function resetImageSelection(input, actions, imageId, originalURL, pendingType) {
+            input.value = "";
+            if (actions) actions.hidden = true;
+            setImage(imageId, originalURL, "assets/logo.png");
+            if (pendingType === "avatar") pendingAvatarFile = null;
+            if (pendingType === "cover") pendingCoverFile = null;
+        }
 
         if (avatarInput) {
-            avatarInput.addEventListener("change", async (event) => {
+            avatarInput.addEventListener("change", (event) => {
                 const file = event.target.files?.[0];
                 if (!file) return;
 
-                try {
-                    showSaveStatus("Uploading avatar...");
-                    const photoURL = await uploadAvatarFile(user, file);
-                    document.getElementById("input-photo-url").value = photoURL;
-                    setImage("profile-avatar", photoURL, "assets/logo.png");
-                    showSaveStatus("Avatar uploaded successfully.");
-                } catch (error) {
-                    console.error("Avatar upload failed:", error);
-                    showSaveStatus("Avatar upload failed. Please try again.", true);
-                }
+                pendingAvatarFile = file;
+                openImagePreviewWindow(file, "avatar");
+                setImage("profile-avatar", URL.createObjectURL(file), "assets/logo.png");
+                showSaveStatus("Preview opened in a new window. Confirm there to save it.");
             });
         }
+
+        if (coverInput) {
+            coverInput.addEventListener("change", (event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+
+                pendingCoverFile = file;
+                openImagePreviewWindow(file, "cover");
+                setImage("cover-image", URL.createObjectURL(file), "assets/logo.png");
+                showSaveStatus("Preview opened in a new window. Confirm there to save it.");
+            });
+        }
+
+        async function applyAvatar() {
+            if (!pendingAvatarFile) return;
+            try {
+                showSaveStatus("Uploading avatar...");
+                const uploadedPhotoURL = await uploadAvatarFile(user, pendingAvatarFile);
+                await updateProfile(user, { photoURL: uploadedPhotoURL });
+                await updateDoc(userRef, { photoURL: uploadedPhotoURL });
+                document.getElementById("input-photo-url").value = uploadedPhotoURL;
+                resetImageSelection(avatarInput, null, "profile-avatar", uploadedPhotoURL, "avatar");
+                showSaveStatus("Avatar updated successfully.");
+            } catch (error) {
+                console.error("Avatar upload failed:", error);
+                showSaveStatus("Avatar upload failed. Please try again.", true);
+            }
+        }
+
+        function cancelAvatar() {
+            resetImageSelection(avatarInput, null, "profile-avatar", currentPhotoURL, "avatar");
+        }
+
+        async function applyCover() {
+            if (!pendingCoverFile) return;
+            try {
+                showSaveStatus("Uploading cover image...");
+                const uploadedCoverURL = await uploadCoverFile(user, pendingCoverFile);
+                await updateDoc(userRef, { coverURL: uploadedCoverURL });
+                document.getElementById("input-cover-url").value = uploadedCoverURL;
+                resetImageSelection(coverInput, null, "cover-image", uploadedCoverURL, "cover");
+                showSaveStatus("Cover image updated successfully.");
+            } catch (error) {
+                console.error("Cover upload failed:", error);
+                showSaveStatus("Cover upload failed. Please try again.", true);
+            }
+        }
+
+        function cancelCover() {
+            resetImageSelection(coverInput, null, "cover-image", currentCoverURL, "cover");
+        }
+
+        window.addEventListener("message", (event) => {
+            if (event.origin !== window.location.origin || event.data?.source !== "netra-image-preview") return;
+            if (event.data.imageType === "avatar") {
+                event.data.action === "apply" ? applyAvatar() : cancelAvatar();
+            } else if (event.data.imageType === "cover") {
+                event.data.action === "apply" ? applyCover() : cancelCover();
+            }
+        });
 
         profileForm.addEventListener("submit", async (event) => {
             event.preventDefault();

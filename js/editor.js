@@ -3,6 +3,16 @@ import { collection, query, where, getDocs, doc, updateDoc } from "https://www.g
 
 const tbody = document.querySelector("#pending-articles-table tbody");
 
+function formatTimestamp(value) {
+    if (!value) return "";
+    const date = typeof value.toDate === "function"
+        ? value.toDate()
+        : value instanceof Date
+            ? value
+            : new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : date.toLocaleString();
+}
+
 async function loadPendingArticles() {
     try {
         const q = query(
@@ -20,7 +30,7 @@ async function loadPendingArticles() {
             tr.innerHTML = `
                 <td><a href="article.html?id=${docSnap.id}">${article.title}</a></td>
                 <td>${article.authorName}</td>
-                <td>${article.createdAt?.toDate().toLocaleString() || ""}</td>
+                <td>${formatTimestamp(article.createdAt)}</td>
                 <td>
                     <button class="approve-btn" data-id="${docSnap.id}">Approve</button>
                     <button class="reject-btn" data-id="${docSnap.id}">Reject</button>
