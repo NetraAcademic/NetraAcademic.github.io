@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | Netra Academic</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <a class="auth-brand" href="index.html">netra</a>
+        <section class="auth-panel" aria-labelledby="auth-title">
+            <div class="auth-heading">
+                <span class="auth-kicker">Netra Academic</span>
+                <h1 id="auth-title">Welcome back.</h1>
+                <p id="auth-description">Sign in to read, publish, and join the conversation.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+                <button class="auth-tab is-active" type="button" role="tab" aria-selected="true" data-mode="login">Sign in</button>
+                <button class="auth-tab" type="button" role="tab" aria-selected="false" data-mode="signup">Create account</button>
+            </div>
+
+            <div class="auth-provider-grid">
+                <button class="provider-button" type="button" id="google-button">
+                    <svg class="provider-logo google-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.27c0-.73-.07-1.43-.2-2.1H12v3.98h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.15c1.84-1.7 2.9-4.2 2.9-7.27Z"/><path fill="#34A853" d="M12 21.7c2.63 0 4.84-.87 6.45-2.36l-3.15-2.45c-.87.58-1.98.92-3.3.92-2.54 0-4.7-1.72-5.47-4.03H3.28v2.53A9.74 9.74 0 0 0 12 21.7Z"/><path fill="#FBBC05" d="M6.53 13.78A5.86 5.86 0 0 1 6.22 12c0-.62.11-1.22.31-1.78V7.69H3.28A9.74 9.74 0 0 0 2.25 12c0 1.56.37 3.04 1.03 4.31l3.25-2.53Z"/><path fill="#EA4335" d="M12 6.19c1.43 0 2.7.49 3.7 1.45l2.78-2.78C16.84 3.27 14.63 2.3 12 2.3a9.74 9.74 0 0 0-8.72 5.39l3.25 2.53C7.3 7.91 9.46 6.19 12 6.19Z"/></svg>
+                    Continue with Google
+                </button>
+                <button class="provider-button" type="button" id="github-button">
+                    <svg class="provider-logo github-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.3a9.7 9.7 0 0 0-3.07 18.9c.49.09.67-.21.67-.47v-1.66c-2.73.59-3.3-1.16-3.3-1.16-.44-1.13-1.08-1.43-1.08-1.43-.89-.61.07-.6.07-.6.98.07 1.5 1 1.5 1 .87 1.5 2.28 1.07 2.84.82.09-.63.34-1.07.62-1.32-2.18-.25-4.47-1.09-4.47-4.85 0-1.07.38-1.94 1-2.62-.1-.25-.43-1.24.1-2.58 0 0 .82-.26 2.67 1a9.2 9.2 0 0 1 4.86 0c1.85-1.26 2.67-1 2.67-1 .53 1.34.2 2.33.1 2.58.62.68 1 1.55 1 2.62 0 3.77-2.3 4.6-4.48 4.84.35.3.66.88.66 1.78v2.64c0 .26.18.57.68.47A9.7 9.7 0 0 0 12 2.3Z"/></svg>
+                    Continue with GitHub
+                </button>
+            </div>
+            <div class="auth-divider"><span>or use email</span></div>
+
+            <form id="email-form" class="auth-form">
+                <label>Email address<input id="email" type="email" autocomplete="email" required></label>
+                <label>Password<input id="password" type="password" minlength="6" autocomplete="current-password" required></label>
+                <button class="auth-submit" type="submit" id="email-submit">Sign in with email</button>
+            </form>
+            <button class="auth-reset" type="button" id="reset-password">Forgot password?</button>
+            <p class="auth-status" id="auth-status" role="status" aria-live="polite"></p>
+            <p class="auth-footer">By continuing, you agree to Netra's <a href="policy.html">policy</a>.</p>
+        </section>
+    </main>
+    <script type="module" src="js/auth-page.js"></script>
+</body>
+</html>

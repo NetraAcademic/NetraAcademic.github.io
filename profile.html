@@ -24,9 +24,6 @@
                 <li>
                     <a href="articles.html">Articles</a>
                 </li>
-                <li>
-                    <a href="profile.html">Profile</a>
-                </li>
             </ul>
             <ul class="nav-right">
             </ul>
@@ -39,6 +36,10 @@
                     id="cover-image"
                     alt="Profile Cover"
                 >
+                <label class="cover-upload-btn" for="input-cover-file" title="Upload cover image">
+                    <span>✎</span>
+                </label>
+                <input id="input-cover-file" class="visually-hidden" type="file" accept="image/*">
             </div>
 
             <div class="profile-header">
@@ -86,6 +87,13 @@
                     class="social-links"
                 ></div>
             </div>
+
+                <section class="profile-published" aria-labelledby="published-articles-title">
+                    <h3 id="published-articles-title">Published Articles</h3>
+                    <div id="profile-articles" class="articles-list">
+                        <p class="empty-state">Loading articles...</p>
+                    </div>
+                </section>
 
             <form id="profile-form" class="profile-form">
                 <h3>Edit Profile</h3>

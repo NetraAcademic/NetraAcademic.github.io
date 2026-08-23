@@ -3,52 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="academic, academics, research, portfolio">
-    <title>Netra Academic</title>
+    <meta name="keywords" content="academic writing, student research, Netra Academic">
+    <title>netra | academic writing, shared properly</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
-<body class="page-index">
-    <header>
-        <div class="nav-brand">
-            <a href="index.html">
-                <img src="assets/logo.png" alt="Netra Academic">
-            </a>
+<body class="home-page page-index">
+    <header class="home-header">
+        <div class="home-nav">
+            <a class="home-brand" href="index.html"><span>netra</span></a>
+            <div class="navbar home-auth-nav"><ul class="nav-left"></ul><ul class="nav-right" id="user-menu"><li><a class="home-login-link" href="auth.html?mode=login">Sign in</a></li></ul></div>
+            <button class="home-menu" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
         </div>
-        <nav class="navbar" id="navbar">
-            <ul class="nav-left">
-                
-                <li><a href="articles.html">Articles</a></li>
-            </ul>
-            <ul class="nav-right" id="user-menu">
-                <li >
-                    <button id="login-btn">Login with Google</button>
-                </li>
-            </ul>   
-            <button class="mobile-toggle" id="mobile-toggle">▼</button>
-        </nav>
     </header>
 
     <main>
-        <section>
-            <h2>Welcome to Netra</h2>
-            <p>
-                Netra is a student-run academic platform for international students and scholars. Here, you can share your research, essays, and ideas with the community.
-                
-                Our goal is to connect people from different countries and fields, encourage learning, and create a space where everyone’s voice can be heard. 
-                
-                Join Netra and be part of a global academic community!
-            </p>
-        </section>
-        <section>
-            <p>Note: You must be logged in to submit your articles.</p>
-        </section>
+        <section class="home-hero"><div class="home-wrap">
+            <h1>Writing taught properly,<br>not <em>graded quietly.</em></h1>
+            <p class="home-lede">Netra is a peer-reviewed space where students publish real work, get honest feedback, and learn how strong academic writing is built.</p>
+            <div class="home-actions"><a class="home-button home-button-primary" href="author.html">Send an article</a><a class="home-button home-button-ghost" href="articles.html">Read other articles</a></div>
+        </div></section>
+
+        <section class="home-section home-mission" id="mission"><div class="home-wrap home-two-column">
+            <div>
+                <span class="home-kicker">Why we exist</span>
+                <p class="home-pull">"I struggled to write not because I lacked ideas — but because no one showed me how good writing actually gets built."</p>
+            </div>
+            <div class="home-copy">
+                <p>Netra grew out of that exact experience. We help students develop clear thinking, strong structure, and the confidence to say what they actually mean through curated exemplars, real peer support, and learning spaces built around how writing is done, not just how it is assessed.</p>
+                <p>Our mission is access: to quality writing, to honest feedback, and to the skills that carry into research, coursework, and work beyond the classroom.</p>
+            </div>
+        </div></section>
+
+        <section class="home-section home-standards" id="standards"><div class="home-wrap">
+            <div class="home-section-head">
+                <span class="home-kicker">Our standards</span>
+                <h2>A publishing environment built on rigor, not volume.</h2>
+                <p>Every submission is reviewed against the same principles, whether it is a first essay or a research paper.</p>
+            </div>
+            <div class="home-standard-list">
+                <div class="home-standard"><span>01</span><strong>Original, always</strong><p>Every piece must be authored by the person submitting it. No plagiarism, no undisclosed AI-generated content, no exceptions.</p></div>
+                <div class="home-standard"><span>02</span><strong>Structured argument</strong><p>Clear structure, logical flow, and appropriate citation of sources make an argument legible to a reader.</p></div>
+                <div class="home-standard"><span>03</span><strong>Respectful discourse</strong><p>No promotional material, offensive language, or discrimination. Netra is a space for scholarship, not self-promotion.</p></div>
+                <div class="home-standard"><span>04</span><strong>Editorial oversight</strong><p>We may review, request revisions, edit, or remove content to keep the platform consistent and credible.</p></div>
+            </div>
+        </div></section>
+
+        <section class="home-section home-curricula" id="curricula"><div class="home-wrap home-curricula-row">
+            <span class="home-kicker">Written for students across</span>
+            <div class="home-curricula-badges"><span>IGCSE</span><span>IB</span><span>AP</span><span>A-Level</span><span>and beyond</span></div>
+        </div></section>
+
+        <section class="home-cta" id="send"><div class="home-wrap home-cta-inner"><div><span class="home-kicker">Have something worth publishing?</span><h2>Put your thinking somewhere it can travel.</h2></div><a class="home-button home-button-primary" href="author.html">Submit your work <span>→</span></a></div></section>
     </main>
 
-    <footer>
+        <footer>
         <p class="copyright">© 2026 Netra Academic</p>
         <p class="footer-panel">
             <a href="about.html" class="footer-button">About</a>
@@ -56,9 +68,6 @@
             <a href="contact.html" class="footer-button">Contact</a>
         </p>
     </footer>
-    <script type="module" src="./js/main.js"></script>
-    <script type="module" src="./js/responsive.js"></script>
+    <script type="module" src="js/main.js"></script><script type="module" src="js/responsive.js"></script>
 </body>
 </html>
-
-
